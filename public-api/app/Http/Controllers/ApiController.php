@@ -23,6 +23,8 @@ class ApiController extends Controller
         $response = Http::get("{$this->privateApiUrl}/healthcheck");
         if ($response->ok()) {
             return response('ok', 200);
+        } else {
+            return response('error', 500);
         }
     }
 }

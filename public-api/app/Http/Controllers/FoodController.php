@@ -22,12 +22,20 @@ class FoodController extends Controller
         $response = Http::get("{$this->privateApiUrl}/foods", [
             'search' => $search
          ]);
-        return $response->json();
+        if ($response->ok()) {
+            return $response->json();
+        } else {
+            return $response('error', 500);
+        }
     }
 
     public function show(int $foodId)
     {
         $response = Http::get("{$this->privateApiUrl}/foods/{$foodId}");
-        return $response->json();
+        if ($response->ok()) {
+            return $response->json();
+        } else {
+            return $response('error', 500);
+        }
     }
 }

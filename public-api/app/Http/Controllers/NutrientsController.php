@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class NutrientsController extends Controller
 {
     private $privateApiUrl;
 
@@ -17,15 +17,11 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $limit = $request->get('limit');
-        $page = $request->get('page');
-
-        $response = Http::get("{$this->privateApiUrl}/users", [
-            'query' => [
-                'page' => $page,
-                'limit' => $limit,
-            ]
-        ]);
+        $search = $request->input('search');
+        
+        $response = Http::get("{$this->privateApiUrl}/nutrients", [
+            'search' => $search
+         ]);
         if ($response->ok()) {
             return $response->json();
         } else {
@@ -33,9 +29,9 @@ class UserController extends Controller
         }
     }
 
-    public function show(int $userId)
+    public function show(int $nutrientId)
     {
-        $response = Http::get("{$this->privateApiUrl}/users/{$userId}");
+        $response = Http::get("{$this->privateApiUrl}/nutrients/{$nutrientId}");
         if ($response->ok()) {
             return $response->json();
         } else {
